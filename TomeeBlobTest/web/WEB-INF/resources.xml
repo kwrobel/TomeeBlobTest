@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+  <Resource id="jdbc/classicmodelds" type="javax.sql.DataSource">#Fri Dec 08 10:21:22 CST 2017
+jdbcDriver=com.mysql.jdbc.Driver
+password=nbdev
+userName=nbdev
+jdbcUrl=jdbc\:mysql\://localhost\:3306/classicmodels?zeroDateTimeBehavior\=convertToNull
+</Resource>
+</resources>
