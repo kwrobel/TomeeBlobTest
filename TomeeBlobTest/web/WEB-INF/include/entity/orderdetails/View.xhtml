@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrderdetailsViewDlg" widgetVar="OrderdetailsViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewOrderdetailsTitle}" closeOnEscape="true">
+
+            <h:form id="OrderdetailsViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{orderdetailsController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewOrderdetailsLabel_orderdetailsPK_orderNumber}"/>
+                        <h:outputText value="#{orderdetailsController.selected.orderdetailsPK.orderNumber}" title="#{myBundle.ViewOrderdetailsTitle_orderdetailsPK_orderNumber}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrderdetailsLabel_orderdetailsPK_productCode}"/>
+                        <h:outputText value="#{orderdetailsController.selected.orderdetailsPK.productCode}" title="#{myBundle.ViewOrderdetailsTitle_orderdetailsPK_productCode}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrderdetailsLabel_quantityOrdered}"/>
+                        <h:outputText value="#{orderdetailsController.selected.quantityOrdered}" title="#{myBundle.ViewOrderdetailsTitle_quantityOrdered}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrderdetailsLabel_priceEach}"/>
+                        <h:outputText value="#{orderdetailsController.selected.priceEach}" title="#{myBundle.ViewOrderdetailsTitle_priceEach}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrderdetailsLabel_orderLineNumber}"/>
+                        <h:outputText value="#{orderdetailsController.selected.orderLineNumber}" title="#{myBundle.ViewOrderdetailsTitle_orderLineNumber}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrderdetailsLabel_orders}"/>
+                        <h:outputText value="#{orderdetailsController.selected.orders.orderNumber}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrderdetailsLabel_products}"/>
+                        <h:outputText value="#{orderdetailsController.selected.products.productName}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('OrderdetailsViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

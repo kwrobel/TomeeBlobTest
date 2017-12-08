@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="OfficesEditDlg" widgetVar="OfficesEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditOfficesTitle}" closeOnEscape="true">
+
+            <h:form id="OfficesEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{officesController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditOfficesLabel_officeCode}" for="officeCode" />
+                        <h:outputText id="officeCode" value="#{officesController.selected.officeCode}" />
+
+                        <p:outputLabel value="#{myBundle.EditOfficesLabel_city}" for="city" />
+                        <p:inputText id="city" value="#{officesController.selected.city}" title="#{myBundle.EditOfficesTitle_city}" required="true" requiredMessage="#{myBundle.EditOfficesRequiredMessage_city}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditOfficesLabel_phone}" for="phone" />
+                        <p:inputText id="phone" value="#{officesController.selected.phone}" title="#{myBundle.EditOfficesTitle_phone}" required="true" requiredMessage="#{myBundle.EditOfficesRequiredMessage_phone}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditOfficesLabel_addressLine1}" for="addressLine1" />
+                        <p:inputText id="addressLine1" value="#{officesController.selected.addressLine1}" title="#{myBundle.EditOfficesTitle_addressLine1}" required="true" requiredMessage="#{myBundle.EditOfficesRequiredMessage_addressLine1}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditOfficesLabel_addressLine2}" for="addressLine2" />
+                        <p:inputText id="addressLine2" value="#{officesController.selected.addressLine2}" title="#{myBundle.EditOfficesTitle_addressLine2}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditOfficesLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{officesController.selected.state}" title="#{myBundle.EditOfficesTitle_state}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditOfficesLabel_country}" for="country" />
+                        <p:inputText id="country" value="#{officesController.selected.country}" title="#{myBundle.EditOfficesTitle_country}" required="true" requiredMessage="#{myBundle.EditOfficesRequiredMessage_country}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditOfficesLabel_postalCode}" for="postalCode" />
+                        <p:inputText id="postalCode" value="#{officesController.selected.postalCode}" title="#{myBundle.EditOfficesTitle_postalCode}" required="true" requiredMessage="#{myBundle.EditOfficesRequiredMessage_postalCode}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.EditOfficesLabel_territory}" for="territory" />
+                        <p:inputText id="territory" value="#{officesController.selected.territory}" title="#{myBundle.EditOfficesTitle_territory}" required="true" requiredMessage="#{myBundle.EditOfficesRequiredMessage_territory}" size="10" maxlength="10"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{officesController.save}" value="#{myBundle.Save}" update="display,:OfficesListForm:datalist,:OfficesListForm:OfficesDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OfficesEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('OfficesEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

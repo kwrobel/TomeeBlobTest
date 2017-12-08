@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem value="#{myBundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                <p:submenu label="#{myBundle.Maintenance}">
+                    <p:menuitem value="#{myBundle.CustomersHeading}..." outcome="/app/customers/index" />
+                    <p:menuitem value="#{myBundle.EmployeesHeading}..." outcome="/app/employees/index" />
+                    <p:menuitem value="#{myBundle.OfficesHeading}..." outcome="/app/offices/index" />
+                    <p:menuitem value="#{myBundle.OrderdetailsHeading}..." outcome="/app/orderdetails/index" />
+                    <p:menuitem value="#{myBundle.OrdersHeading}..." outcome="/app/orders/index" />
+                    <p:menuitem value="#{myBundle.PaymentsHeading}..." outcome="/app/payments/index" />
+                    <p:menuitem value="#{myBundle.ProductlinesHeading}..." outcome="/app/productlines/index" />
+                    <p:menuitem value="#{myBundle.ProductsHeading}..." outcome="/app/products/index" />
+                </p:submenu>
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+
+</html>

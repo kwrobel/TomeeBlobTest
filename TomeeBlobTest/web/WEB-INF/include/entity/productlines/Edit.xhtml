@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProductlinesEditDlg" widgetVar="ProductlinesEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditProductlinesTitle}" closeOnEscape="true">
+
+            <h:form id="ProductlinesEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{productlinesController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditProductlinesLabel_productLine}" for="productLine" />
+                        <h:outputText id="productLine" value="#{productlinesController.selected.productLine}" />
+
+                        <p:outputLabel value="#{myBundle.EditProductlinesLabel_textDescription}" for="textDescription" />
+                        <p:inputTextarea rows="4" cols="30" id="textDescription" value="#{productlinesController.selected.textDescription}" title="#{myBundle.EditProductlinesTitle_textDescription}" />
+
+                        <p:outputLabel value="#{myBundle.EditProductlinesLabel_htmlDescription}" for="htmlDescription" />
+                        <p:inputTextarea rows="4" cols="30" id="htmlDescription" value="#{productlinesController.selected.htmlDescription}" title="#{myBundle.EditProductlinesTitle_htmlDescription}" />
+
+                        <p:outputLabel value="#{myBundle.EditProductlinesLabel_image}" for="image" />
+                        <p:inputTextarea rows="4" cols="30" id="image" value="#{productlinesController.selected.image}" title="#{myBundle.EditProductlinesTitle_image}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productlinesController.save}" value="#{myBundle.Save}" update="display,:ProductlinesListForm:datalist,:ProductlinesListForm:ProductlinesDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProductlinesEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ProductlinesEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

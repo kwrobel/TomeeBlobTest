@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="PaymentsCreateDlg" widgetVar="PaymentsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreatePaymentsTitle}" closeOnEscape="true">
+
+            <h:form id="PaymentsCreateForm">
+
+                <h:panelGroup id="display" rendered="#{paymentsController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreatePaymentsLabel_paymentsPK_customerNumber}" for="paymentsPK_customerNumber" />
+                        <p:inputText id="paymentsPK_customerNumber" value="#{paymentsController.selected.paymentsPK.customerNumber}" title="#{myBundle.CreatePaymentsTitle_paymentsPK_customerNumber}" required="true" requiredMessage="#{myBundle.CreatePaymentsRequiredMessage_paymentsPK_customerNumber}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePaymentsLabel_paymentsPK_checkNumber}" for="paymentsPK_checkNumber" />
+                        <p:inputText id="paymentsPK_checkNumber" value="#{paymentsController.selected.paymentsPK.checkNumber}" title="#{myBundle.CreatePaymentsTitle_paymentsPK_checkNumber}" required="true" requiredMessage="#{myBundle.CreatePaymentsRequiredMessage_paymentsPK_checkNumber}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePaymentsLabel_paymentDate}" for="paymentDate" />
+                        <p:calendar id="paymentDate" pattern="MM/dd/yyyy" value="#{paymentsController.selected.paymentDate}" title="#{myBundle.CreatePaymentsTitle_paymentDate}" required="true" requiredMessage="#{myBundle.CreatePaymentsRequiredMessage_paymentDate}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePaymentsLabel_amount}" for="amount" />
+                        <p:inputText id="amount" value="#{paymentsController.selected.amount}" title="#{myBundle.CreatePaymentsTitle_amount}" required="true" requiredMessage="#{myBundle.CreatePaymentsRequiredMessage_amount}"/>
+
+                        <p:outputLabel value="#{myBundle.CreatePaymentsLabel_customers}" for="customers" />
+                        <p:selectOneMenu id="customers" value="#{paymentsController.selected.customers}" required="true" requiredMessage="#{myBundle.CreatePaymentsRequiredMessage_customers}" converter="customersConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{customersController.items}"
+                                           var="customersItem"
+                                           itemValue="#{customersItem}"
+                                           itemLabel="#{customersItem.customerName.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{paymentsController.saveNew}" value="#{myBundle.Save}" update="display,:PaymentsListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PaymentsCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('PaymentsCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

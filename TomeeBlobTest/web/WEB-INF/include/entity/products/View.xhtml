@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductsViewDlg" widgetVar="ProductsViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewProductsTitle}" closeOnEscape="true">
+
+            <h:form id="ProductsViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{productsController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_productCode}"/>
+                        <h:outputText value="#{productsController.selected.productCode}" title="#{myBundle.ViewProductsTitle_productCode}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_productName}"/>
+                        <h:outputText value="#{productsController.selected.productName}" title="#{myBundle.ViewProductsTitle_productName}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_productScale}"/>
+                        <h:outputText value="#{productsController.selected.productScale}" title="#{myBundle.ViewProductsTitle_productScale}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_productVendor}"/>
+                        <h:outputText value="#{productsController.selected.productVendor}" title="#{myBundle.ViewProductsTitle_productVendor}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_productDescription}"/>
+                        <h:outputText value="#{productsController.selected.productDescription}" title="#{myBundle.ViewProductsTitle_productDescription}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_quantityInStock}"/>
+                        <h:outputText value="#{productsController.selected.quantityInStock}" title="#{myBundle.ViewProductsTitle_quantityInStock}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_buyPrice}"/>
+                        <h:outputText value="#{productsController.selected.buyPrice}" title="#{myBundle.ViewProductsTitle_buyPrice}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_msrp}"/>
+                        <h:outputText value="#{productsController.selected.msrp}" title="#{myBundle.ViewProductsTitle_msrp}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductsLabel_productLine}"/>
+                        <h:outputText value="#{productsController.selected.productLine.textDescription}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ProductsViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

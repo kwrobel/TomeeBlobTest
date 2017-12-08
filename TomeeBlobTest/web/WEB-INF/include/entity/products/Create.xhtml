@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductsCreateDlg" widgetVar="ProductsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateProductsTitle}" closeOnEscape="true">
+
+            <h:form id="ProductsCreateForm">
+
+                <h:panelGroup id="display" rendered="#{productsController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_productCode}" for="productCode" />
+                        <p:inputText id="productCode" value="#{productsController.selected.productCode}" title="#{myBundle.CreateProductsTitle_productCode}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_productCode}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_productName}" for="productName" />
+                        <p:inputText id="productName" value="#{productsController.selected.productName}" title="#{myBundle.CreateProductsTitle_productName}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_productName}" size="70" maxlength="70"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_productScale}" for="productScale" />
+                        <p:inputText id="productScale" value="#{productsController.selected.productScale}" title="#{myBundle.CreateProductsTitle_productScale}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_productScale}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_productVendor}" for="productVendor" />
+                        <p:inputText id="productVendor" value="#{productsController.selected.productVendor}" title="#{myBundle.CreateProductsTitle_productVendor}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_productVendor}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_productDescription}" for="productDescription" />
+                        <p:inputTextarea rows="4" cols="30" id="productDescription" value="#{productsController.selected.productDescription}" title="#{myBundle.CreateProductsTitle_productDescription}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_productDescription}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_quantityInStock}" for="quantityInStock" />
+                        <p:inputText id="quantityInStock" value="#{productsController.selected.quantityInStock}" title="#{myBundle.CreateProductsTitle_quantityInStock}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_quantityInStock}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_buyPrice}" for="buyPrice" />
+                        <p:inputText id="buyPrice" value="#{productsController.selected.buyPrice}" title="#{myBundle.CreateProductsTitle_buyPrice}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_buyPrice}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_msrp}" for="msrp" />
+                        <p:inputText id="msrp" value="#{productsController.selected.msrp}" title="#{myBundle.CreateProductsTitle_msrp}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_msrp}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateProductsLabel_productLine}" for="productLine" />
+                        <p:selectOneMenu id="productLine" value="#{productsController.selected.productLine}" required="true" requiredMessage="#{myBundle.CreateProductsRequiredMessage_productLine}" converter="productlinesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productlinesController.items}"
+                                           var="productLineItem"
+                                           itemValue="#{productLineItem}"
+                                           itemLabel="#{productLineItem.textDescription.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productsController.saveNew}" value="#{myBundle.Save}" update="display,:ProductsListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProductsCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ProductsCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

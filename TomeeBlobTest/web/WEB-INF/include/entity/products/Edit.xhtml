@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ProductsEditDlg" widgetVar="ProductsEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditProductsTitle}" closeOnEscape="true">
+
+            <h:form id="ProductsEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{productsController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditProductsLabel_productCode}" for="productCode" />
+                        <h:outputText id="productCode" value="#{productsController.selected.productCode}" />
+
+                        <p:outputLabel value="#{myBundle.EditProductsLabel_productName}" for="productName" />
+                        <p:inputText id="productName" value="#{productsController.selected.productName}" title="#{myBundle.EditProductsTitle_productName}" required="true" requiredMessage="#{myBundle.EditProductsRequiredMessage_productName}" size="70" maxlength="70"/>
+
+                        <p:outputLabel value="#{myBundle.EditProductsLabel_productScale}" for="productScale" />
+                        <p:inputText id="productScale" value="#{productsController.selected.productScale}" title="#{myBundle.EditProductsTitle_productScale}" required="true" requiredMessage="#{myBundle.EditProductsRequiredMessage_productScale}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.EditProductsLabel_productVendor}" for="productVendor" />
+                        <p:inputText id="productVendor" value="#{productsController.selected.productVendor}" title="#{myBundle.EditProductsTitle_productVendor}" required="true" requiredMessage="#{myBundle.EditProductsRequiredMessage_productVendor}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditProductsLabel_productDescription}" for="productDescription" />
+                        <p:inputTextarea rows="4" cols="30" id="productDescription" value="#{productsController.selected.productDescription}" title="#{myBundle.EditProductsTitle_productDescription}" required="true" requiredMessage="#{myBundle.EditProductsRequiredMessage_productDescription}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProductsLabel_quantityInStock}" for="quantityInStock" />
+                        <p:inputText id="quantityInStock" value="#{productsController.selected.quantityInStock}" title="#{myBundle.EditProductsTitle_quantityInStock}" required="true" requiredMessage="#{myBundle.EditProductsRequiredMessage_quantityInStock}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProductsLabel_buyPrice}" for="buyPrice" />
+                        <p:inputText id="buyPrice" value="#{productsController.selected.buyPrice}" title="#{myBundle.EditProductsTitle_buyPrice}" required="true" requiredMessage="#{myBundle.EditProductsRequiredMessage_buyPrice}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProductsLabel_msrp}" for="msrp" />
+                        <p:inputText id="msrp" value="#{productsController.selected.msrp}" title="#{myBundle.EditProductsTitle_msrp}" required="true" requiredMessage="#{myBundle.EditProductsRequiredMessage_msrp}"/>
+
+                        <p:outputLabel value="#{myBundle.EditProductsLabel_productLine}" for="productLine" />
+                        <p:selectOneMenu id="productLine" value="#{productsController.selected.productLine}" required="true" requiredMessage="#{myBundle.EditProductsRequiredMessage_productLine}" converter="productlinesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productlinesController.items}"
+                                           var="productLineItem"
+                                           itemValue="#{productLineItem}"
+                                           itemLabel="#{productLineItem.textDescription.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{productsController.save}" value="#{myBundle.Save}" update="display,:ProductsListForm:datalist,:ProductsListForm:ProductsDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ProductsEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ProductsEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

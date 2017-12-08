@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrderdetailsCreateDlg" widgetVar="OrderdetailsCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateOrderdetailsTitle}" closeOnEscape="true">
+
+            <h:form id="OrderdetailsCreateForm">
+
+                <h:panelGroup id="display" rendered="#{orderdetailsController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateOrderdetailsLabel_orderdetailsPK_orderNumber}" for="orderdetailsPK_orderNumber" />
+                        <p:inputText id="orderdetailsPK_orderNumber" value="#{orderdetailsController.selected.orderdetailsPK.orderNumber}" title="#{myBundle.CreateOrderdetailsTitle_orderdetailsPK_orderNumber}" required="true" requiredMessage="#{myBundle.CreateOrderdetailsRequiredMessage_orderdetailsPK_orderNumber}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateOrderdetailsLabel_orderdetailsPK_productCode}" for="orderdetailsPK_productCode" />
+                        <p:inputText id="orderdetailsPK_productCode" value="#{orderdetailsController.selected.orderdetailsPK.productCode}" title="#{myBundle.CreateOrderdetailsTitle_orderdetailsPK_productCode}" required="true" requiredMessage="#{myBundle.CreateOrderdetailsRequiredMessage_orderdetailsPK_productCode}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.CreateOrderdetailsLabel_quantityOrdered}" for="quantityOrdered" />
+                        <p:inputText id="quantityOrdered" value="#{orderdetailsController.selected.quantityOrdered}" title="#{myBundle.CreateOrderdetailsTitle_quantityOrdered}" required="true" requiredMessage="#{myBundle.CreateOrderdetailsRequiredMessage_quantityOrdered}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateOrderdetailsLabel_priceEach}" for="priceEach" />
+                        <p:inputText id="priceEach" value="#{orderdetailsController.selected.priceEach}" title="#{myBundle.CreateOrderdetailsTitle_priceEach}" required="true" requiredMessage="#{myBundle.CreateOrderdetailsRequiredMessage_priceEach}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateOrderdetailsLabel_orderLineNumber}" for="orderLineNumber" />
+                        <p:inputText id="orderLineNumber" value="#{orderdetailsController.selected.orderLineNumber}" title="#{myBundle.CreateOrderdetailsTitle_orderLineNumber}" required="true" requiredMessage="#{myBundle.CreateOrderdetailsRequiredMessage_orderLineNumber}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateOrderdetailsLabel_orders}" for="orders" />
+                        <p:selectOneMenu id="orders" value="#{orderdetailsController.selected.orders}" required="true" requiredMessage="#{myBundle.CreateOrderdetailsRequiredMessage_orders}" converter="ordersConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ordersController.items}"
+                                           var="ordersItem"
+                                           itemValue="#{ordersItem}"
+                                           itemLabel="#{ordersItem.orderNumber.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateOrderdetailsLabel_products}" for="products" />
+                        <p:selectOneMenu id="products" value="#{orderdetailsController.selected.products}" required="true" requiredMessage="#{myBundle.CreateOrderdetailsRequiredMessage_products}" converter="productsConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productsController.items}"
+                                           var="productsItem"
+                                           itemValue="#{productsItem}"
+                                           itemLabel="#{productsItem.productName.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{orderdetailsController.saveNew}" value="#{myBundle.Save}" update="display,:OrderdetailsListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OrderdetailsCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('OrderdetailsCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

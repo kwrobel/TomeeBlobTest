@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OrdersViewDlg" widgetVar="OrdersViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewOrdersTitle}" closeOnEscape="true">
+
+            <h:form id="OrdersViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{ordersController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewOrdersLabel_orderNumber}"/>
+                        <h:outputText value="#{ordersController.selected.orderNumber}" title="#{myBundle.ViewOrdersTitle_orderNumber}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrdersLabel_orderDate}"/>
+                        <h:outputText value="#{ordersController.selected.orderDate}" title="#{myBundle.ViewOrdersTitle_orderDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewOrdersLabel_requiredDate}"/>
+                        <h:outputText value="#{ordersController.selected.requiredDate}" title="#{myBundle.ViewOrdersTitle_requiredDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewOrdersLabel_shippedDate}"/>
+                        <h:outputText value="#{ordersController.selected.shippedDate}" title="#{myBundle.ViewOrdersTitle_shippedDate}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+
+                        <h:outputText value="#{myBundle.ViewOrdersLabel_status}"/>
+                        <h:outputText value="#{ordersController.selected.status}" title="#{myBundle.ViewOrdersTitle_status}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrdersLabel_comments}"/>
+                        <h:outputText value="#{ordersController.selected.comments}" title="#{myBundle.ViewOrdersTitle_comments}"/>
+
+                        <h:outputText value="#{myBundle.ViewOrdersLabel_customerNumber}"/>
+                        <h:outputText value="#{ordersController.selected.customerNumber.customerName}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('OrdersViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="PaymentsListForm">
+
+        <p:panel header="#{myBundle.ListPaymentsTitle}">
+            <p:contextMenu id="PaymentsDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('PaymentsListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('PaymentsListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('PaymentsListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('PaymentsListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.PaymentsMenuItem_customers}" icon="ui-icon-search"  actionListener="#{paymentsController.prepareCustomers}" update=":CustomersViewForm" oncomplete="PF('CustomersViewDialog').show()" disabled="#{empty paymentsController.selected.customers}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{paymentsController.items}"
+                         lazy="false"
+                         rowKey="#{item.paymentsPK}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{paymentsController.selected}"
+                         filteredValue="#{paymentsController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{paymentsController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.paymentsPK}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PaymentsDataTableContextMenu" listener="#{paymentsController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:PaymentsDataTableContextMenu" listener="#{paymentsController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{paymentsController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('PaymentsListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.paymentsPK.customerNumber}" filterBy="#{item.paymentsPK.customerNumber}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPaymentsTitle_paymentsPK_customerNumber}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.paymentsPK.customerNumber}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.paymentsPK.checkNumber}" filterBy="#{item.paymentsPK.checkNumber}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPaymentsTitle_paymentsPK_checkNumber}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.paymentsPK.checkNumber}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.paymentDate}" filterBy="#{item.paymentDate}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPaymentsTitle_paymentDate}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.paymentDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+
+                <p:column sortBy="#{item.amount}" filterBy="#{item.amount}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPaymentsTitle_amount}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.amount}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.customers.customerName}" filterBy="#{item.customers.customerName}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListPaymentsTitle_customers}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.customers.customerName}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{paymentsController.prepareCreate}" update=":PaymentsCreateForm" oncomplete="PF('PaymentsCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":PaymentsViewForm" oncomplete="PF('PaymentsViewDialog').show()" disabled="#{empty paymentsController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":PaymentsEditForm" oncomplete="PF('PaymentsEditDialog').show()" disabled="#{empty paymentsController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{paymentsController.delete}" update=":growl,datalist" disabled="#{empty paymentsController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

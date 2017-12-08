@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="OfficesViewDlg" widgetVar="OfficesViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewOfficesTitle}" closeOnEscape="true">
+
+            <h:form id="OfficesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{officesController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_officeCode}"/>
+                        <h:outputText value="#{officesController.selected.officeCode}" title="#{myBundle.ViewOfficesTitle_officeCode}"/>
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_city}"/>
+                        <h:outputText value="#{officesController.selected.city}" title="#{myBundle.ViewOfficesTitle_city}"/>
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_phone}"/>
+                        <h:outputText value="#{officesController.selected.phone}" title="#{myBundle.ViewOfficesTitle_phone}"/>
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_addressLine1}"/>
+                        <h:outputText value="#{officesController.selected.addressLine1}" title="#{myBundle.ViewOfficesTitle_addressLine1}"/>
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_addressLine2}"/>
+                        <h:outputText value="#{officesController.selected.addressLine2}" title="#{myBundle.ViewOfficesTitle_addressLine2}"/>
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_state}"/>
+                        <h:outputText value="#{officesController.selected.state}" title="#{myBundle.ViewOfficesTitle_state}"/>
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_country}"/>
+                        <h:outputText value="#{officesController.selected.country}" title="#{myBundle.ViewOfficesTitle_country}"/>
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_postalCode}"/>
+                        <h:outputText value="#{officesController.selected.postalCode}" title="#{myBundle.ViewOfficesTitle_postalCode}"/>
+
+                        <h:outputText value="#{myBundle.ViewOfficesLabel_territory}"/>
+                        <h:outputText value="#{officesController.selected.territory}" title="#{myBundle.ViewOfficesTitle_territory}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('OfficesViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

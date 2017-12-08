@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="EmployeesListForm">
+
+        <p:panel header="#{myBundle.ListEmployeesTitle}">
+            <p:contextMenu id="EmployeesDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('EmployeesListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('EmployeesListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('EmployeesListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('EmployeesListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.EmployeesMenuItem_customersList}" icon="ui-icon-search"  action="#{employeesController.navigateCustomersList}" disabled="#{employeesController.isCustomersListEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.EmployeesMenuItem_employeesList}" icon="ui-icon-search"  action="#{employeesController.navigateEmployeesList}" disabled="#{employeesController.isEmployeesListEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.EmployeesMenuItem_reportsTo}" icon="ui-icon-search"  actionListener="#{employeesController.prepareReportsTo}" update=":EmployeesViewForm" oncomplete="PF('EmployeesViewDialog').show()" disabled="#{empty employeesController.selected.reportsTo}"/>  
+                <p:menuitem value="#{myBundle.EmployeesMenuItem_officeCode}" icon="ui-icon-search"  actionListener="#{employeesController.prepareOfficeCode}" update=":OfficesViewForm" oncomplete="PF('OfficesViewDialog').show()" disabled="#{empty employeesController.selected.officeCode}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{employeesController.items}"
+                         lazy="false"
+                         rowKey="#{item.employeeNumber}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{employeesController.selected}"
+                         filteredValue="#{employeesController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{employeesController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.employeeNumber}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EmployeesDataTableContextMenu" listener="#{employeesController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:EmployeesDataTableContextMenu" listener="#{employeesController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{employeesController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('EmployeesListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.employeeNumber}" filterBy="#{item.employeeNumber}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEmployeesTitle_employeeNumber}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.employeeNumber}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.lastName}" filterBy="#{item.lastName}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEmployeesTitle_lastName}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lastName}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.firstName}" filterBy="#{item.firstName}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEmployeesTitle_firstName}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.firstName}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.extension}" filterBy="#{item.extension}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEmployeesTitle_extension}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.extension}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.email}" filterBy="#{item.email}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEmployeesTitle_email}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.email}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.jobTitle}" filterBy="#{item.jobTitle}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListEmployeesTitle_jobTitle}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.jobTitle}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.reportsTo.lastName}" filterBy="#{item.reportsTo.lastName}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListEmployeesTitle_reportsTo}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.reportsTo.lastName}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.officeCode.officeCode}" filterBy="#{item.officeCode.officeCode}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListEmployeesTitle_officeCode}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.officeCode.officeCode}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{employeesController.prepareCreate}" update=":EmployeesCreateForm" oncomplete="PF('EmployeesCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":EmployeesViewForm" oncomplete="PF('EmployeesViewDialog').show()" disabled="#{empty employeesController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":EmployeesEditForm" oncomplete="PF('EmployeesEditDialog').show()" disabled="#{empty employeesController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{employeesController.delete}" update=":growl,datalist" disabled="#{empty employeesController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

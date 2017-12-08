@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="OrdersEditDlg" widgetVar="OrdersEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditOrdersTitle}" closeOnEscape="true">
+
+            <h:form id="OrdersEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{ordersController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditOrdersLabel_orderNumber}" for="orderNumber" />
+                        <h:outputText id="orderNumber" value="#{ordersController.selected.orderNumber}" />
+
+                        <p:outputLabel value="#{myBundle.EditOrdersLabel_orderDate}" for="orderDate" />
+                        <p:calendar id="orderDate" pattern="MM/dd/yyyy" value="#{ordersController.selected.orderDate}" title="#{myBundle.EditOrdersTitle_orderDate}" required="true" requiredMessage="#{myBundle.EditOrdersRequiredMessage_orderDate}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditOrdersLabel_requiredDate}" for="requiredDate" />
+                        <p:calendar id="requiredDate" pattern="MM/dd/yyyy" value="#{ordersController.selected.requiredDate}" title="#{myBundle.EditOrdersTitle_requiredDate}" required="true" requiredMessage="#{myBundle.EditOrdersRequiredMessage_requiredDate}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditOrdersLabel_shippedDate}" for="shippedDate" />
+                        <p:calendar id="shippedDate" pattern="MM/dd/yyyy" value="#{ordersController.selected.shippedDate}" title="#{myBundle.EditOrdersTitle_shippedDate}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditOrdersLabel_status}" for="status" />
+                        <p:inputText id="status" value="#{ordersController.selected.status}" title="#{myBundle.EditOrdersTitle_status}" required="true" requiredMessage="#{myBundle.EditOrdersRequiredMessage_status}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.EditOrdersLabel_comments}" for="comments" />
+                        <p:inputTextarea rows="4" cols="30" id="comments" value="#{ordersController.selected.comments}" title="#{myBundle.EditOrdersTitle_comments}" />
+
+                        <p:outputLabel value="#{myBundle.EditOrdersLabel_customerNumber}" for="customerNumber" />
+                        <p:selectOneMenu id="customerNumber" value="#{ordersController.selected.customerNumber}" required="true" requiredMessage="#{myBundle.EditOrdersRequiredMessage_customerNumber}" converter="customersConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{customersController.items}"
+                                           var="customerNumberItem"
+                                           itemValue="#{customerNumberItem}"
+                                           itemLabel="#{customerNumberItem.customerName.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ordersController.save}" value="#{myBundle.Save}" update="display,:OrdersListForm:datalist,:OrdersListForm:OrdersDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OrdersEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('OrdersEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

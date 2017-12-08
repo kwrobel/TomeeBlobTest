@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmployeesCreateDlg" widgetVar="EmployeesCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateEmployeesTitle}" closeOnEscape="true">
+
+            <h:form id="EmployeesCreateForm">
+
+                <h:panelGroup id="display" rendered="#{employeesController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateEmployeesLabel_employeeNumber}" for="employeeNumber" />
+                        <p:inputText id="employeeNumber" value="#{employeesController.selected.employeeNumber}" title="#{myBundle.CreateEmployeesTitle_employeeNumber}" required="true" requiredMessage="#{myBundle.CreateEmployeesRequiredMessage_employeeNumber}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEmployeesLabel_lastName}" for="lastName" />
+                        <p:inputText id="lastName" value="#{employeesController.selected.lastName}" title="#{myBundle.CreateEmployeesTitle_lastName}" required="true" requiredMessage="#{myBundle.CreateEmployeesRequiredMessage_lastName}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEmployeesLabel_firstName}" for="firstName" />
+                        <p:inputText id="firstName" value="#{employeesController.selected.firstName}" title="#{myBundle.CreateEmployeesTitle_firstName}" required="true" requiredMessage="#{myBundle.CreateEmployeesRequiredMessage_firstName}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEmployeesLabel_extension}" for="extension" />
+                        <p:inputText id="extension" value="#{employeesController.selected.extension}" title="#{myBundle.CreateEmployeesTitle_extension}" required="true" requiredMessage="#{myBundle.CreateEmployeesRequiredMessage_extension}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEmployeesLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{employeesController.selected.email}" title="#{myBundle.CreateEmployeesTitle_email}" required="true" requiredMessage="#{myBundle.CreateEmployeesRequiredMessage_email}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEmployeesLabel_jobTitle}" for="jobTitle" />
+                        <p:inputText id="jobTitle" value="#{employeesController.selected.jobTitle}" title="#{myBundle.CreateEmployeesTitle_jobTitle}" required="true" requiredMessage="#{myBundle.CreateEmployeesRequiredMessage_jobTitle}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateEmployeesLabel_reportsTo}" for="reportsTo" />
+                        <p:selectOneMenu id="reportsTo" value="#{employeesController.selected.reportsTo}"  converter="employeesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{employeesController.items}"
+                                           var="reportsToItem"
+                                           itemValue="#{reportsToItem}"
+                                           itemLabel="#{reportsToItem.lastName.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateEmployeesLabel_officeCode}" for="officeCode" />
+                        <p:selectOneMenu id="officeCode" value="#{employeesController.selected.officeCode}" required="true" requiredMessage="#{myBundle.CreateEmployeesRequiredMessage_officeCode}" converter="officesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{officesController.items}"
+                                           var="officeCodeItem"
+                                           itemValue="#{officeCodeItem}"
+                                           itemLabel="#{officeCodeItem.officeCode.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{employeesController.saveNew}" value="#{myBundle.Save}" update="display,:EmployeesListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmployeesCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('EmployeesCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

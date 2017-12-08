@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="OfficesListForm">
+
+        <p:panel header="#{myBundle.ListOfficesTitle}">
+            <p:contextMenu id="OfficesDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('OfficesListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('OfficesListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('OfficesListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('OfficesListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.OfficesMenuItem_employeesList}" icon="ui-icon-search"  action="#{officesController.navigateEmployeesList}" disabled="#{officesController.isEmployeesListEmpty}" ajax="false"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{officesController.items}"
+                         lazy="false"
+                         rowKey="#{item.officeCode}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{officesController.selected}"
+                         filteredValue="#{officesController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{officesController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.officeCode}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:OfficesDataTableContextMenu"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:OfficesDataTableContextMenu"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('OfficesListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.officeCode}" filterBy="#{item.officeCode}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOfficesTitle_officeCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.officeCode}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.city}" filterBy="#{item.city}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOfficesTitle_city}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.city}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.phone}" filterBy="#{item.phone}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOfficesTitle_phone}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.phone}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.addressLine1}" filterBy="#{item.addressLine1}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOfficesTitle_addressLine1}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.addressLine1}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.addressLine2}" filterBy="#{item.addressLine2}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOfficesTitle_addressLine2}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.addressLine2}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.state}" filterBy="#{item.state}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOfficesTitle_state}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.state}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.country}" filterBy="#{item.country}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListOfficesTitle_country}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.country}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.postalCode}" filterBy="#{item.postalCode}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListOfficesTitle_postalCode}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.postalCode}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.territory}" filterBy="#{item.territory}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListOfficesTitle_territory}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.territory}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{officesController.prepareCreate}" update=":OfficesCreateForm" oncomplete="PF('OfficesCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":OfficesViewForm" oncomplete="PF('OfficesViewDialog').show()" disabled="#{empty officesController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":OfficesEditForm" oncomplete="PF('OfficesEditDialog').show()" disabled="#{empty officesController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{officesController.delete}" update=":growl,datalist" disabled="#{empty officesController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

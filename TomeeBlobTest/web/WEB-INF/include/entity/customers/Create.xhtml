@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CustomersCreateDlg" widgetVar="CustomersCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateCustomersTitle}" closeOnEscape="true">
+
+            <h:form id="CustomersCreateForm">
+
+                <h:panelGroup id="display" rendered="#{customersController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_customerNumber}" for="customerNumber" />
+                        <p:inputText id="customerNumber" value="#{customersController.selected.customerNumber}" title="#{myBundle.CreateCustomersTitle_customerNumber}" required="true" requiredMessage="#{myBundle.CreateCustomersRequiredMessage_customerNumber}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_customerName}" for="customerName" />
+                        <p:inputText id="customerName" value="#{customersController.selected.customerName}" title="#{myBundle.CreateCustomersTitle_customerName}" required="true" requiredMessage="#{myBundle.CreateCustomersRequiredMessage_customerName}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_contactLastName}" for="contactLastName" />
+                        <p:inputText id="contactLastName" value="#{customersController.selected.contactLastName}" title="#{myBundle.CreateCustomersTitle_contactLastName}" required="true" requiredMessage="#{myBundle.CreateCustomersRequiredMessage_contactLastName}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_contactFirstName}" for="contactFirstName" />
+                        <p:inputText id="contactFirstName" value="#{customersController.selected.contactFirstName}" title="#{myBundle.CreateCustomersTitle_contactFirstName}" required="true" requiredMessage="#{myBundle.CreateCustomersRequiredMessage_contactFirstName}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_phone}" for="phone" />
+                        <p:inputText id="phone" value="#{customersController.selected.phone}" title="#{myBundle.CreateCustomersTitle_phone}" required="true" requiredMessage="#{myBundle.CreateCustomersRequiredMessage_phone}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_addressLine1}" for="addressLine1" />
+                        <p:inputText id="addressLine1" value="#{customersController.selected.addressLine1}" title="#{myBundle.CreateCustomersTitle_addressLine1}" required="true" requiredMessage="#{myBundle.CreateCustomersRequiredMessage_addressLine1}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_addressLine2}" for="addressLine2" />
+                        <p:inputText id="addressLine2" value="#{customersController.selected.addressLine2}" title="#{myBundle.CreateCustomersTitle_addressLine2}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_city}" for="city" />
+                        <p:inputText id="city" value="#{customersController.selected.city}" title="#{myBundle.CreateCustomersTitle_city}" required="true" requiredMessage="#{myBundle.CreateCustomersRequiredMessage_city}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_state}" for="state" />
+                        <p:inputText id="state" value="#{customersController.selected.state}" title="#{myBundle.CreateCustomersTitle_state}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_postalCode}" for="postalCode" />
+                        <p:inputText id="postalCode" value="#{customersController.selected.postalCode}" title="#{myBundle.CreateCustomersTitle_postalCode}" size="15" maxlength="15"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_country}" for="country" />
+                        <p:inputText id="country" value="#{customersController.selected.country}" title="#{myBundle.CreateCustomersTitle_country}" required="true" requiredMessage="#{myBundle.CreateCustomersRequiredMessage_country}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_creditLimit}" for="creditLimit" />
+                        <p:inputText id="creditLimit" value="#{customersController.selected.creditLimit}" title="#{myBundle.CreateCustomersTitle_creditLimit}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateCustomersLabel_salesRepEmployeeNumber}" for="salesRepEmployeeNumber" />
+                        <p:selectOneMenu id="salesRepEmployeeNumber" value="#{customersController.selected.salesRepEmployeeNumber}"  converter="employeesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{employeesController.items}"
+                                           var="salesRepEmployeeNumberItem"
+                                           itemValue="#{salesRepEmployeeNumberItem}"
+                                           itemLabel="#{salesRepEmployeeNumberItem.lastName.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{customersController.saveNew}" value="#{myBundle.Save}" update="display,:CustomersListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('CustomersCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('CustomersCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

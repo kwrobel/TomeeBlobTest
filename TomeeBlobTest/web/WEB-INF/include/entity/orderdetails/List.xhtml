@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="OrderdetailsListForm">
+
+        <p:panel header="#{myBundle.ListOrderdetailsTitle}">
+            <p:contextMenu id="OrderdetailsDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('OrderdetailsListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('OrderdetailsListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('OrderdetailsListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('OrderdetailsListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.OrderdetailsMenuItem_orders}" icon="ui-icon-search"  actionListener="#{orderdetailsController.prepareOrders}" update=":OrdersViewForm" oncomplete="PF('OrdersViewDialog').show()" disabled="#{empty orderdetailsController.selected.orders}"/>  
+                <p:menuitem value="#{myBundle.OrderdetailsMenuItem_products}" icon="ui-icon-search"  actionListener="#{orderdetailsController.prepareProducts}" update=":ProductsViewForm" oncomplete="PF('ProductsViewDialog').show()" disabled="#{empty orderdetailsController.selected.products}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{orderdetailsController.items}"
+                         lazy="false"
+                         rowKey="#{item.orderdetailsPK}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{orderdetailsController.selected}"
+                         filteredValue="#{orderdetailsController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{orderdetailsController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.orderdetailsPK}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:OrderdetailsDataTableContextMenu" listener="#{orderdetailsController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:OrderdetailsDataTableContextMenu" listener="#{orderdetailsController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{orderdetailsController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('OrderdetailsListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.orderdetailsPK.orderNumber}" filterBy="#{item.orderdetailsPK.orderNumber}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOrderdetailsTitle_orderdetailsPK_orderNumber}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.orderdetailsPK.orderNumber}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.orderdetailsPK.productCode}" filterBy="#{item.orderdetailsPK.productCode}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOrderdetailsTitle_orderdetailsPK_productCode}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.orderdetailsPK.productCode}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.quantityOrdered}" filterBy="#{item.quantityOrdered}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOrderdetailsTitle_quantityOrdered}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.quantityOrdered}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.priceEach}" filterBy="#{item.priceEach}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOrderdetailsTitle_priceEach}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.priceEach}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.orderLineNumber}" filterBy="#{item.orderLineNumber}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOrderdetailsTitle_orderLineNumber}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.orderLineNumber}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.orders.orderNumber}" filterBy="#{item.orders.orderNumber}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListOrderdetailsTitle_orders}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.orders.orderNumber}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.products.productName}" filterBy="#{item.products.productName}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListOrderdetailsTitle_products}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.products.productName}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{orderdetailsController.prepareCreate}" update=":OrderdetailsCreateForm" oncomplete="PF('OrderdetailsCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":OrderdetailsViewForm" oncomplete="PF('OrderdetailsViewDialog').show()" disabled="#{empty orderdetailsController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":OrderdetailsEditForm" oncomplete="PF('OrderdetailsEditDialog').show()" disabled="#{empty orderdetailsController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{orderdetailsController.delete}" update=":growl,datalist" disabled="#{empty orderdetailsController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

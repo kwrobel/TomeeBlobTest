@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="EmployeesViewDlg" widgetVar="EmployeesViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewEmployeesTitle}" closeOnEscape="true">
+
+            <h:form id="EmployeesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{employeesController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewEmployeesLabel_employeeNumber}"/>
+                        <h:outputText value="#{employeesController.selected.employeeNumber}" title="#{myBundle.ViewEmployeesTitle_employeeNumber}"/>
+
+                        <h:outputText value="#{myBundle.ViewEmployeesLabel_lastName}"/>
+                        <h:outputText value="#{employeesController.selected.lastName}" title="#{myBundle.ViewEmployeesTitle_lastName}"/>
+
+                        <h:outputText value="#{myBundle.ViewEmployeesLabel_firstName}"/>
+                        <h:outputText value="#{employeesController.selected.firstName}" title="#{myBundle.ViewEmployeesTitle_firstName}"/>
+
+                        <h:outputText value="#{myBundle.ViewEmployeesLabel_extension}"/>
+                        <h:outputText value="#{employeesController.selected.extension}" title="#{myBundle.ViewEmployeesTitle_extension}"/>
+
+                        <h:outputText value="#{myBundle.ViewEmployeesLabel_email}"/>
+                        <h:outputText value="#{employeesController.selected.email}" title="#{myBundle.ViewEmployeesTitle_email}"/>
+
+                        <h:outputText value="#{myBundle.ViewEmployeesLabel_jobTitle}"/>
+                        <h:outputText value="#{employeesController.selected.jobTitle}" title="#{myBundle.ViewEmployeesTitle_jobTitle}"/>
+
+                        <h:outputText value="#{myBundle.ViewEmployeesLabel_reportsTo}"/>
+                        <h:outputText value="#{employeesController.selected.reportsTo.lastName}"/>
+
+                        <h:outputText value="#{myBundle.ViewEmployeesLabel_officeCode}"/>
+                        <h:outputText value="#{employeesController.selected.officeCode.officeCode}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('EmployeesViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

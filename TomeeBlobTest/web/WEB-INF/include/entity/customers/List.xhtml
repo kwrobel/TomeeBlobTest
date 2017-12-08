@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="CustomersListForm">
+
+        <p:panel header="#{myBundle.ListCustomersTitle}">
+            <p:contextMenu id="CustomersDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('CustomersListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('CustomersListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('CustomersListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('CustomersListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.CustomersMenuItem_paymentsList}" icon="ui-icon-search"  action="#{customersController.navigatePaymentsList}" disabled="#{customersController.isPaymentsListEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.CustomersMenuItem_ordersList}" icon="ui-icon-search"  action="#{customersController.navigateOrdersList}" disabled="#{customersController.isOrdersListEmpty}" ajax="false"/>  
+                <p:menuitem value="#{myBundle.CustomersMenuItem_salesRepEmployeeNumber}" icon="ui-icon-search"  actionListener="#{customersController.prepareSalesRepEmployeeNumber}" update=":EmployeesViewForm" oncomplete="PF('EmployeesViewDialog').show()" disabled="#{empty customersController.selected.salesRepEmployeeNumber}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{customersController.items}"
+                         lazy="false"
+                         rowKey="#{item.customerNumber}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{customersController.selected}"
+                         filteredValue="#{customersController.filteredItems}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{customersController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.customerNumber}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CustomersDataTableContextMenu" listener="#{customersController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:CustomersDataTableContextMenu" listener="#{customersController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{customersController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('CustomersListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.customerNumber}" filterBy="#{item.customerNumber}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCustomersTitle_customerNumber}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.customerNumber}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.customerName}" filterBy="#{item.customerName}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCustomersTitle_customerName}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.customerName}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contactLastName}" filterBy="#{item.contactLastName}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCustomersTitle_contactLastName}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contactLastName}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.contactFirstName}" filterBy="#{item.contactFirstName}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCustomersTitle_contactFirstName}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.contactFirstName}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.phone}" filterBy="#{item.phone}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCustomersTitle_phone}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.phone}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.addressLine1}" filterBy="#{item.addressLine1}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListCustomersTitle_addressLine1}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.addressLine1}"/>
+                </p:column>
+
+                <ui:remove>
+                    <p:column sortBy="#{item.addressLine2}" filterBy="#{item.addressLine2}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomersTitle_addressLine2}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.addressLine2}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.city}" filterBy="#{item.city}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomersTitle_city}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.city}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.state}" filterBy="#{item.state}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomersTitle_state}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.state}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.postalCode}" filterBy="#{item.postalCode}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomersTitle_postalCode}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.postalCode}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.country}" filterBy="#{item.country}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomersTitle_country}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.country}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.creditLimit}" filterBy="#{item.creditLimit}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomersTitle_creditLimit}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.creditLimit}"/>
+                    </p:column>
+                </ui:remove>
+                <ui:remove>
+                    <p:column sortBy="#{item.salesRepEmployeeNumber.lastName}" filterBy="#{item.salesRepEmployeeNumber.lastName}">
+                        <f:facet name="header">
+                            <h:outputText value="#{myBundle.ListCustomersTitle_salesRepEmployeeNumber}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.salesRepEmployeeNumber.lastName}"/>
+                    </p:column>
+                </ui:remove>
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{customersController.prepareCreate}" update=":CustomersCreateForm" oncomplete="PF('CustomersCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":CustomersViewForm" oncomplete="PF('CustomersViewDialog').show()" disabled="#{empty customersController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":CustomersEditForm" oncomplete="PF('CustomersEditDialog').show()" disabled="#{empty customersController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{customersController.delete}" update=":growl,datalist" disabled="#{empty customersController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

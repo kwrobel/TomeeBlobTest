@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="PaymentsEditDlg" widgetVar="PaymentsEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditPaymentsTitle}" closeOnEscape="true">
+
+            <h:form id="PaymentsEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{paymentsController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditPaymentsLabel_paymentsPK_customerNumber}" for="paymentsPK_customerNumber" />
+                        <h:outputText id="paymentsPK_customerNumber" value="#{paymentsController.selected.paymentsPK.customerNumber}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditPaymentsLabel_paymentsPK_checkNumber}" for="paymentsPK_checkNumber" />
+                        <h:outputText id="paymentsPK_checkNumber" value="#{paymentsController.selected.paymentsPK.checkNumber}" />
+
+                        <p:outputLabel value="#{myBundle.EditPaymentsLabel_paymentDate}" for="paymentDate" />
+                        <p:calendar id="paymentDate" pattern="MM/dd/yyyy" value="#{paymentsController.selected.paymentDate}" title="#{myBundle.EditPaymentsTitle_paymentDate}" required="true" requiredMessage="#{myBundle.EditPaymentsRequiredMessage_paymentDate}" showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.EditPaymentsLabel_amount}" for="amount" />
+                        <p:inputText id="amount" value="#{paymentsController.selected.amount}" title="#{myBundle.EditPaymentsTitle_amount}" required="true" requiredMessage="#{myBundle.EditPaymentsRequiredMessage_amount}"/>
+
+
+                        <h:outputLabel value="#{myBundle.EditPaymentsLabel_customers}" for="customers" />
+                        <h:outputText id="customers" value="#{paymentsController.selected.customers}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{paymentsController.save}" value="#{myBundle.Save}" update="display,:PaymentsListForm:datalist,:PaymentsListForm:PaymentsDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('PaymentsEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('PaymentsEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

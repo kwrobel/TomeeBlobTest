@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="OrderdetailsEditDlg" widgetVar="OrderdetailsEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditOrderdetailsTitle}" closeOnEscape="true">
+
+            <h:form id="OrderdetailsEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{orderdetailsController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditOrderdetailsLabel_orderdetailsPK_orderNumber}" for="orderdetailsPK_orderNumber" />
+                        <h:outputText id="orderdetailsPK_orderNumber" value="#{orderdetailsController.selected.orderdetailsPK.orderNumber}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditOrderdetailsLabel_orderdetailsPK_productCode}" for="orderdetailsPK_productCode" />
+                        <h:outputText id="orderdetailsPK_productCode" value="#{orderdetailsController.selected.orderdetailsPK.productCode}" />
+
+                        <p:outputLabel value="#{myBundle.EditOrderdetailsLabel_quantityOrdered}" for="quantityOrdered" />
+                        <p:inputText id="quantityOrdered" value="#{orderdetailsController.selected.quantityOrdered}" title="#{myBundle.EditOrderdetailsTitle_quantityOrdered}" required="true" requiredMessage="#{myBundle.EditOrderdetailsRequiredMessage_quantityOrdered}"/>
+
+                        <p:outputLabel value="#{myBundle.EditOrderdetailsLabel_priceEach}" for="priceEach" />
+                        <p:inputText id="priceEach" value="#{orderdetailsController.selected.priceEach}" title="#{myBundle.EditOrderdetailsTitle_priceEach}" required="true" requiredMessage="#{myBundle.EditOrderdetailsRequiredMessage_priceEach}"/>
+
+                        <p:outputLabel value="#{myBundle.EditOrderdetailsLabel_orderLineNumber}" for="orderLineNumber" />
+                        <p:inputText id="orderLineNumber" value="#{orderdetailsController.selected.orderLineNumber}" title="#{myBundle.EditOrderdetailsTitle_orderLineNumber}" required="true" requiredMessage="#{myBundle.EditOrderdetailsRequiredMessage_orderLineNumber}"/>
+
+
+                        <h:outputLabel value="#{myBundle.EditOrderdetailsLabel_orders}" for="orders" />
+                        <h:outputText id="orders" value="#{orderdetailsController.selected.orders}" />
+
+
+                        <h:outputLabel value="#{myBundle.EditOrderdetailsLabel_products}" for="products" />
+                        <h:outputText id="products" value="#{orderdetailsController.selected.products}" />
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{orderdetailsController.save}" value="#{myBundle.Save}" update="display,:OrderdetailsListForm:datalist,:OrderdetailsListForm:OrderdetailsDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('OrderdetailsEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('OrderdetailsEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

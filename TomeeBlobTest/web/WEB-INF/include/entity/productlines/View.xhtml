@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="ProductlinesViewDlg" widgetVar="ProductlinesViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewProductlinesTitle}" closeOnEscape="true">
+
+            <h:form id="ProductlinesViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{productlinesController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewProductlinesLabel_productLine}"/>
+                        <h:outputText value="#{productlinesController.selected.productLine}" title="#{myBundle.ViewProductlinesTitle_productLine}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductlinesLabel_textDescription}"/>
+                        <h:outputText value="#{productlinesController.selected.textDescription}" title="#{myBundle.ViewProductlinesTitle_textDescription}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductlinesLabel_htmlDescription}"/>
+                        <h:outputText value="#{productlinesController.selected.htmlDescription}" title="#{myBundle.ViewProductlinesTitle_htmlDescription}"/>
+
+                        <h:outputText value="#{myBundle.ViewProductlinesLabel_image}"/>
+                        <h:outputText value="#{productlinesController.selected.image}" title="#{myBundle.ViewProductlinesTitle_image}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('ProductlinesViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

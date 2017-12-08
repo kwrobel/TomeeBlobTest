@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="CustomersViewDlg" widgetVar="CustomersViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewCustomersTitle}" closeOnEscape="true">
+
+            <h:form id="CustomersViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{customersController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_customerNumber}"/>
+                        <h:outputText value="#{customersController.selected.customerNumber}" title="#{myBundle.ViewCustomersTitle_customerNumber}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_customerName}"/>
+                        <h:outputText value="#{customersController.selected.customerName}" title="#{myBundle.ViewCustomersTitle_customerName}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_contactLastName}"/>
+                        <h:outputText value="#{customersController.selected.contactLastName}" title="#{myBundle.ViewCustomersTitle_contactLastName}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_contactFirstName}"/>
+                        <h:outputText value="#{customersController.selected.contactFirstName}" title="#{myBundle.ViewCustomersTitle_contactFirstName}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_phone}"/>
+                        <h:outputText value="#{customersController.selected.phone}" title="#{myBundle.ViewCustomersTitle_phone}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_addressLine1}"/>
+                        <h:outputText value="#{customersController.selected.addressLine1}" title="#{myBundle.ViewCustomersTitle_addressLine1}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_addressLine2}"/>
+                        <h:outputText value="#{customersController.selected.addressLine2}" title="#{myBundle.ViewCustomersTitle_addressLine2}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_city}"/>
+                        <h:outputText value="#{customersController.selected.city}" title="#{myBundle.ViewCustomersTitle_city}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_state}"/>
+                        <h:outputText value="#{customersController.selected.state}" title="#{myBundle.ViewCustomersTitle_state}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_postalCode}"/>
+                        <h:outputText value="#{customersController.selected.postalCode}" title="#{myBundle.ViewCustomersTitle_postalCode}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_country}"/>
+                        <h:outputText value="#{customersController.selected.country}" title="#{myBundle.ViewCustomersTitle_country}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_creditLimit}"/>
+                        <h:outputText value="#{customersController.selected.creditLimit}" title="#{myBundle.ViewCustomersTitle_creditLimit}"/>
+
+                        <h:outputText value="#{myBundle.ViewCustomersLabel_salesRepEmployeeNumber}"/>
+                        <h:outputText value="#{customersController.selected.salesRepEmployeeNumber.lastName}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('CustomersViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

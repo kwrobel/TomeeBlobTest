@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="EmployeesEditDlg" widgetVar="EmployeesEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditEmployeesTitle}" closeOnEscape="true">
+
+            <h:form id="EmployeesEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{employeesController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditEmployeesLabel_employeeNumber}" for="employeeNumber" />
+                        <h:outputText id="employeeNumber" value="#{employeesController.selected.employeeNumber}" />
+
+                        <p:outputLabel value="#{myBundle.EditEmployeesLabel_lastName}" for="lastName" />
+                        <p:inputText id="lastName" value="#{employeesController.selected.lastName}" title="#{myBundle.EditEmployeesTitle_lastName}" required="true" requiredMessage="#{myBundle.EditEmployeesRequiredMessage_lastName}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmployeesLabel_firstName}" for="firstName" />
+                        <p:inputText id="firstName" value="#{employeesController.selected.firstName}" title="#{myBundle.EditEmployeesTitle_firstName}" required="true" requiredMessage="#{myBundle.EditEmployeesRequiredMessage_firstName}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmployeesLabel_extension}" for="extension" />
+                        <p:inputText id="extension" value="#{employeesController.selected.extension}" title="#{myBundle.EditEmployeesTitle_extension}" required="true" requiredMessage="#{myBundle.EditEmployeesRequiredMessage_extension}" size="10" maxlength="10"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmployeesLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{employeesController.selected.email}" title="#{myBundle.EditEmployeesTitle_email}" required="true" requiredMessage="#{myBundle.EditEmployeesRequiredMessage_email}" size="100" maxlength="100"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmployeesLabel_jobTitle}" for="jobTitle" />
+                        <p:inputText id="jobTitle" value="#{employeesController.selected.jobTitle}" title="#{myBundle.EditEmployeesTitle_jobTitle}" required="true" requiredMessage="#{myBundle.EditEmployeesRequiredMessage_jobTitle}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditEmployeesLabel_reportsTo}" for="reportsTo" />
+                        <p:selectOneMenu id="reportsTo" value="#{employeesController.selected.reportsTo}"  converter="employeesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{employeesController.items}"
+                                           var="reportsToItem"
+                                           itemValue="#{reportsToItem}"
+                                           itemLabel="#{reportsToItem.lastName.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditEmployeesLabel_officeCode}" for="officeCode" />
+                        <p:selectOneMenu id="officeCode" value="#{employeesController.selected.officeCode}" required="true" requiredMessage="#{myBundle.EditEmployeesRequiredMessage_officeCode}" converter="officesConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{officesController.items}"
+                                           var="officeCodeItem"
+                                           itemValue="#{officeCodeItem}"
+                                           itemLabel="#{officeCodeItem.officeCode.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{employeesController.save}" value="#{myBundle.Save}" update="display,:EmployeesListForm:datalist,:EmployeesListForm:EmployeesDataTableContextMenu,:growl" oncomplete="handleSubmit(xhr,status,args,PF('EmployeesEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('EmployeesEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>
